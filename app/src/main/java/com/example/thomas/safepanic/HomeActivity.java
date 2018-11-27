@@ -15,11 +15,11 @@ public class HomeActivity extends AppCompatActivity {
 
         textView=findViewById(R.id.textView);
 
-        LocalStorage store=new LocalStorage(getApplicationContext());
-        String firstName=store.getStorage("firstName");
-        String lastName=store.getStorage("lastName");
-        String email=store.getStorage("email");
-        String phone=store.getStorage("phone");
+        LocalStorage retrieve=new LocalStorage(getApplicationContext());
+        String firstName=retrieve.getStorage("firstName");
+        String lastName=retrieve.getStorage("lastName");
+        String email=retrieve.getStorage("email");
+        String phone=retrieve.getStorage("phone");
 
         textView.setText("Name: "+firstName+" "+lastName+"\nemail: "+email+"\nphone: "+phone);
     }
