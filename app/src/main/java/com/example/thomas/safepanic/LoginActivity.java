@@ -96,6 +96,13 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             {
                 Toast.makeText(getApplicationContext(),"Login!",Toast.LENGTH_SHORT).show();
             }
+            if(emailEditText.getText().toString().equals("admin") && passwordEditText.getText().toString().equals("admin"))
+            {
+                Intent intent=new Intent(getApplicationContext(), HomeActivity.class);
+                startActivity(intent);
+            }
+
+
         }
 
     }
