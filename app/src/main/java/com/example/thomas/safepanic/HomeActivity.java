@@ -22,23 +22,12 @@ public class HomeActivity extends AppCompatActivity {
     private DrawerLayout mDrawerLayout;
     public static FragmentManager mFragmentManager;
     public static FragmentTransaction mFragmentTransaction;
+    TextView nav_view_name, nav_view_email;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
-
-        /*
-        textView=findViewById(R.id.textView);
-
-        LocalStorage retrieve=new LocalStorage(getApplicationContext());
-        String firstName=retrieve.getStorage("firstName");
-        String lastName=retrieve.getStorage("lastName");
-        String email=retrieve.getStorage("email");
-        String phone=retrieve.getStorage("phone");
-
-        textView.setText("Name: "+firstName+" "+lastName+"\nemail: "+email+"\nphone: "+phone);
-        */
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -46,6 +35,10 @@ public class HomeActivity extends AppCompatActivity {
         ActionBar actionbar = getSupportActionBar();
         actionbar.setDisplayHomeAsUpEnabled(true);
         actionbar.setHomeAsUpIndicator(R.drawable.ic_menu);
+
+        nav_view_name=findViewById(R.id.nav_view_name);
+        nav_view_email=findViewById(R.id.nav_view_email);
+
 
         mFragmentManager = getSupportFragmentManager();
         mFragmentTransaction = mFragmentManager.beginTransaction();

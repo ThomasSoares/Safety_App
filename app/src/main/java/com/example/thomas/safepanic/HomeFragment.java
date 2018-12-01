@@ -36,7 +36,6 @@ public class HomeFragment extends Fragment {
         parentHolder=inflater.inflate(R.layout.fragment_home, container, false);
 
         helpButton=parentHolder.findViewById(R.id.helpButton);
-        textView=parentHolder.findViewById(R.id.textView);
 
         listeners();
 
