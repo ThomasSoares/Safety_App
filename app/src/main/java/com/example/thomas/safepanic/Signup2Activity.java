@@ -10,6 +10,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -23,6 +24,8 @@ public class Signup2Activity extends AppCompatActivity implements View.OnClickLi
     Button generateOtpButton;
     Button finishButton;
 
+    ProgressBar progressBar3;
+
     public void initialize()
     {
         createTextView2=findViewById(R.id.createTextView2);
@@ -32,6 +35,7 @@ public class Signup2Activity extends AppCompatActivity implements View.OnClickLi
         phoneEditText=findViewById(R.id.phoneEditText);
         generateOtpButton=findViewById(R.id.generateOtpButton);
         finishButton=findViewById(R.id.finishButton);
+        progressBar3=findViewById(R.id.progressBar3);
     }
 
     public void listeners()
@@ -79,9 +83,14 @@ public class Signup2Activity extends AppCompatActivity implements View.OnClickLi
     public void finishClicked()
     {
         hideKeyboard();
+        progressBar3.setVisibility(View.VISIBLE);
         LocalStorage store=new LocalStorage(getApplicationContext());
         store.addStorage("phone",phoneEditText.getText().toString());
 
+        Personal addInfo=new Personal(store.getStorage("firstName"),store.getStorage("lastName"),"f",20,store.getStorage("phone"),Double.valueOf(store.getStorage("longtitude")), Double.valueOf(store.getStorage("latitude")), false);
+        addInfo.addtoDb();
+
+        progressBar3.setVisibility(View.GONE);
         Intent intent=new Intent(getApplicationContext(), HomeActivity.class);
         startActivity(intent);
 

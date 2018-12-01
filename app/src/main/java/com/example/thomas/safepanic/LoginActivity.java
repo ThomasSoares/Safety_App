@@ -21,8 +21,14 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
 
 public class LoginActivity extends AppCompatActivity implements View.OnClickListener,View.OnKeyListener{
 
@@ -39,9 +45,22 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     double longtitute;
     double latitude;
 
+    private FirebaseAuth mAuth;
+
+    ProgressBar progressBar;
+
     public void initialize()
     {
         //INITIALIZING ALL VARIABLES
+        // Initialize Firebase Auth
+        mAuth = FirebaseAuth.getInstance();
+        if(mAuth.getCurrentUser()!=null)
+        {
+            Intent intent=new Intent(getApplicationContext(), HomeActivity.class);
+            startActivity(intent);
+        }
+
+        progressBar=findViewById(R.id.progressBar);
 
         emailEditText=findViewById(R.id.emailCreateEditText);
         passwordEditText=findViewById(R.id.passwordCreateEditText);
@@ -156,6 +175,9 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         //FUNCTION THAT LOGS IN THE USER
 
         hideKeyboard();
+
+        progressBar.setVisibility(View.VISIBLE);
+
         if(isEmpty(emailEditText))
         {
             emailEditText.setError("Cannot be empty");
@@ -172,17 +194,37 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             }
             else
             {
-                Toast.makeText(getApplicationContext(),"Login!",Toast.LENGTH_SHORT).show();
+                //Toast.makeText(getApplicationContext(),"Login!",Toast.LENGTH_SHORT).show();
             }
             if(emailEditText.getText().toString().equals("admin") && passwordEditText.getText().toString().equals("admin"))
             {
                 LocalStorage store=new LocalStorage(getApplicationContext());
-                store.addStorage("longtitude", String.valueOf(longtitute));
-                store.addStorage("latitude", String.valueOf(latitude));
+                store.addStorage("longtitude", String.valueOf(latitude));
+                store.addStorage("latitude", String.valueOf(longtitute));
+
+                Toast.makeText(getApplicationContext(),String.valueOf(longtitute)+" : "+String.valueOf(latitude),Toast.LENGTH_SHORT).show();
+
                 Intent intent=new Intent(getApplicationContext(), HomeActivity.class);
                 startActivity(intent);
+                finish();
             }
+            mAuth.signInWithEmailAndPassword(emailEditText.getText().toString(), passwordEditText.getText().toString())
+                    .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                        @Override
+                        public void onComplete(@NonNull Task<AuthResult> task) {
+                            if (task.isSuccessful()) {
+                                // Sign in success, update UI with the signed-in user's information
+                                progressBar.setVisibility(View.GONE);
 
+                                Intent intent=new Intent(getApplicationContext(), HomeActivity.class);
+                                startActivity(intent);
+                            } else {
+                                // If sign in fails, display a message to the user.
+                                Toast.makeText(getApplicationContext(),"Failed!",Toast.LENGTH_SHORT).show();
+                            }
+
+                        }
+                    });
 
         }
 

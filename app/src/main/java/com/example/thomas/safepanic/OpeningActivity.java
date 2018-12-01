@@ -8,14 +8,27 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.Toast;
 
+import com.google.firebase.auth.FirebaseAuth;
+
 public class OpeningActivity extends AppCompatActivity {
 
     CheckBox termsCheckBox;
     Button nextButon;
     boolean termsAgreed;//flag to check if the checkbox was selected or not
 
+    private FirebaseAuth mAuth;
+
     public void initialize()
     {
+        // Initialize Firebase Auth
+        mAuth = FirebaseAuth.getInstance();
+        if(mAuth.getCurrentUser()!=null)
+        {
+            Intent intent=new Intent(getApplicationContext(), HomeActivity.class);
+            startActivity(intent);
+            finish();
+        }
+
         termsCheckBox=findViewById(R.id.termsCheckBox);
         nextButon=findViewById(R.id.nextButton);
         termsAgreed=false;

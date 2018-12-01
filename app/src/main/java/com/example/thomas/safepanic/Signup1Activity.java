@@ -1,6 +1,7 @@
 package com.example.thomas.safepanic;
 
 import android.content.Intent;
+import android.support.annotation.NonNull;
 import android.support.constraint.ConstraintLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -10,7 +11,14 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
 
 public class Signup1Activity extends AppCompatActivity implements View.OnClickListener,View.OnKeyListener{
 
@@ -20,9 +28,15 @@ public class Signup1Activity extends AppCompatActivity implements View.OnClickLi
 
     EditText emailCreateEditText, passwordCreateEditText, confirmCreatePasswordEditText;
     Button nextCreateButton1;
+    ProgressBar progressBar2;
+
+    private FirebaseAuth mAuth;
 
     public void initialize()
     {
+        // Initialize Firebase Auth
+        mAuth = FirebaseAuth.getInstance();
+
         createTextView1=findViewById(R.id.createTextView1);
         belowCreateText1=findViewById(R.id.belowCreateText1);
         backgroundCreate1=findViewById(R.id.backgroundCreate1);
@@ -31,6 +45,8 @@ public class Signup1Activity extends AppCompatActivity implements View.OnClickLi
         passwordCreateEditText=findViewById(R.id.passwordCreateEditText);
         confirmCreatePasswordEditText=findViewById(R.id.confirmCreatePasswordEditText);
         nextCreateButton1=findViewById(R.id.nextCreateButton1);
+
+        progressBar2=findViewById(R.id.progressBar2);
     }
 
     public void listeners()
@@ -88,12 +104,28 @@ public class Signup1Activity extends AppCompatActivity implements View.OnClickLi
                 }
                 else
                 {
-                    LocalStorage store=new LocalStorage(getApplicationContext());
-                    store.addStorage("password",passwordCreateEditText.getText().toString());
-                    store.addStorage("email",emailCreateEditText.getText().toString());
+                    progressBar2.setVisibility(View.VISIBLE);
+                    mAuth.createUserWithEmailAndPassword(emailCreateEditText.getText().toString(), passwordCreateEditText.getText().toString())
+                            .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                                @Override
+                                public void onComplete(@NonNull Task<AuthResult> task) {
+                                    if (task.isSuccessful()) {
+                                        // Sign in success, update UI with the signed-in user's information
+                                        LocalStorage store=new LocalStorage(getApplicationContext());
+                                        store.addStorage("password",passwordCreateEditText.getText().toString());
+                                        store.addStorage("email",emailCreateEditText.getText().toString());
+                                        progressBar2.setVisibility(View.GONE);
 
-                    Intent intent=new Intent(getApplicationContext(), Signup2Activity.class);
-                    startActivity(intent);
+                                        Intent intent=new Intent(getApplicationContext(), Signup2Activity.class);
+                                        startActivity(intent);
+                                    } else {
+                                        // If sign in fails, display a message to the user.
+                                        Toast.makeText(getApplicationContext(),"Failed!",Toast.LENGTH_SHORT).show();
+                                    }
+                                }
+                            });
+
+
                 }
 
             }

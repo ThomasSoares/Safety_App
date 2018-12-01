@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "924141619725",
+    "firebase_url": "https://safety-24f2d.firebaseio.com",
+    "project_id": "safety-24f2d",
+    "storage_bucket": "safety-24f2d.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:924141619725:android:7a9e0474628f4692",
+        "android_client_info": {
+          "package_name": "com.example.thomas.safepanic"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "924141619725-mj3gc6sue8lj8sl5l1af0lk1vkgvfld3.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.thomas.safepanic",
+            "certificate_hash": "bb1a619b0d9753b08e9408c4ecec7e0523ec2ed6"
+          }
+        },
+        {
+          "client_id": "924141619725-qioomijj3c8e7qqv7eqshrg12sj6qgdd.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCKNHv1c0Gi-8p58JmM4eBYqBRc8pnyhmg"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "924141619725-qioomijj3c8e7qqv7eqshrg12sj6qgdd.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

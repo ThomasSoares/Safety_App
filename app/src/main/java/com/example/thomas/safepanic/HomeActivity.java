@@ -1,5 +1,6 @@
 package com.example.thomas.safepanic;
 
+import android.content.Intent;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -12,6 +13,9 @@ import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.google.firebase.auth.FirebaseAuth;
 
 public class HomeActivity extends AppCompatActivity {
 
@@ -100,6 +104,16 @@ public class HomeActivity extends AppCompatActivity {
                             Fragment fragment=new GroupsFragment();
                             mFragmentManager.beginTransaction().replace(R.id.content_frame, fragment).commit();
 
+                        }
+                        else if(id==R.id.nav_logout)
+                        {
+                            FirebaseAuth.getInstance().signOut();
+
+                            Toast.makeText(getApplicationContext(),"Successfully Logged Out!", Toast.LENGTH_SHORT).show();
+
+                            Intent intent=new Intent(getApplicationContext(), LoginActivity.class);
+                            startActivity(intent);
+                            finish();
                         }
 
                         return true;
